@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Disabled state -->
+    <item android:state_enabled="false">
+        <shape android:shape="rectangle">
+            <!-- Set your desired transparent background color for disabled state -->
+            <solid android:color="@color/transparent" />
+        </shape>
+    </item>
+
+    <!-- Default state -->
+    <item>
+        <shape android:shape="rectangle">
+            <!-- Set your desired background color for default state -->
+            <solid android:color="@color/colorPrimary" />
+        </shape>
+    </item>
+</selector>
