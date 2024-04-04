@@ -17,6 +17,8 @@ public class MainActivity extends AppCompatActivity {
     boolean onEqualClick = false ;
     TextView result  ;
     boolean clickOperator = false ;
+    String history ;
+    String lastChar ;
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -44,6 +46,11 @@ public class MainActivity extends AppCompatActivity {
         }
     }
     public void onClickOperation(View view){
+        history = historyNum.getText().toString();
+        lastChar = history.isEmpty() ? "" : String.valueOf(history.charAt(history.length() - 1));
+        if(lastChar.equals(".")){
+            return;
+        }
         if(result.getText().toString().isEmpty())
             return;
 
@@ -62,8 +69,14 @@ public class MainActivity extends AppCompatActivity {
     }
     public void clickEqual(View view)
     {
+        history = historyNum.getText().toString();
+        lastChar = history.isEmpty() ? "" : String.valueOf(history.charAt(history.length() - 1));
+        if(lastChar.equals("+") || lastChar.equals("-") || lastChar.equals("*") || lastChar.equals("/") || lastChar.equals(".") ||
+           lastChar.equals("%") || lastChar.equals("^")){
+            return;
+        }
         if(savedValueNumber.equals("")) {
-           return;
+            return;
         }
         if(!result.getText().toString().equals("") && !clickOperator) {
             dot.setEnabled(true);
@@ -82,6 +95,22 @@ public class MainActivity extends AppCompatActivity {
         }
         historyNum.setText(savedValueNumber);
     }
+    public void onClickClear(View view)
+    {
+         result.setText("");
+         historyNum.setText("");
+         savedOperator = "";
+         savedValueNumber = "";
+    }
+    public void onClickDelete(View view) {
+        if (!result.getText().toString().equals("")) {
+            result.setText(result.getText().toString().substring(0, result.getText().length() - 1));
+        }
+        if (!historyNum.getText().toString().equals("")) {
+            historyNum.setText(historyNum.getText().toString().substring(0, historyNum.getText().length() - 1));
+        }
+    }
+
 
     public String calculate(String lhs , String op , String rhs)
     {
@@ -99,6 +128,15 @@ public class MainActivity extends AppCompatActivity {
         }
         else if (op.equals("*")) {
             res = num1 * num2 ;
+        } else if (op.equals("%")) {
+            res = num1 % num2 ;
+        }
+        else if (op.equals("^")) {
+            int result = 1 ;
+            for(int i = 0 ; i < num2 ; i++ ){
+                result *= num1 ;
+            }
+            res = result ;
         }
         return ""+res;
     }
